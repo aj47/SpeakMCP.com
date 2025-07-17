@@ -6,25 +6,136 @@
     <title>SpeakMCP</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
+        :root {
+            /* Inner shadow for glass effect */
+            --shadow-offset: 0;
+            --shadow-blur: 20px;
+            --shadow-spread: -5px;
+            --shadow-color: rgba(255, 255, 255, 0.7);
+
+            /* Glass tint */
+            --tint-color: 255, 255, 255;
+            --tint-opacity: 0.15;
+
+            /* Background frost */
+            --frost-blur: 8px;
+
+            /* SVG noise/distortion */
+            --noise-frequency: 0.008;
+            --distortion-strength: 30;
+
+            /* Outer shadow blur */
+            --outer-shadow-blur: 24px;
+        }
+
         body {
+            margin: 0;
+            padding: 0;
             background-color: black;
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
         }
-        
-        .logo-container {
-            text-align: center;
+
+        .video-background {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 50vw;
+            height: 50vh;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            object-position: center;
+            z-index: -1;
         }
-        
-        .logo {
-            max-width: 90vw;
-            max-height: 90vh;
-            width: auto;
-            height: auto;
+
+        .download-container {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .download-btn {
+            color: white;
+            padding: 18px 36px;
+            border-radius: 20px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            isolation: isolate;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0px 6px var(--outer-shadow-blur) rgba(0, 0, 0, 0.3);
+        }
+
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            border-radius: 20px;
+            box-shadow:
+                inset var(--shadow-offset) var(--shadow-offset) var(--shadow-blur) var(--shadow-spread) var(--shadow-color);
+            background-color: rgba(var(--tint-color), var(--tint-opacity));
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .download-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            border-radius: 20px;
+            backdrop-filter: blur(var(--frost-blur));
+            filter: url(#glass-distortion);
+            isolation: isolate;
+            -webkit-backdrop-filter: blur(var(--frost-blur));
+            -webkit-filter: url("#glass-distortion");
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0px 8px calc(var(--outer-shadow-blur) + 8px) rgba(0, 0, 0, 0.4);
+        }
+
+        .download-btn:hover::before {
+            background-color: rgba(var(--tint-color), calc(var(--tint-opacity) + 0.1));
+            box-shadow:
+                inset var(--shadow-offset) var(--shadow-offset) calc(var(--shadow-blur) + 5px) var(--shadow-spread) var(--shadow-color);
+        }
+
+        .download-btn:active {
+            transform: translateY(-1px);
+            transition: all 0.1s ease;
         }
     </style>
 </head>
 <body>
-    <div class="logo-container">
-        <img src="speakmcp_logo.png" alt="SpeakMCP Logo" class="logo">
+    <video class="video-background" autoplay muted loop>
+        <source src="speakmcp-web.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <div class="download-container">
+        <a href="https://github.com/aj47/SpeakMCP/releases/download/v0.0.2/SpeakMCP-0.0.2-arm64.dmg" class="download-btn">
+            Download for Mac
+        </a>
     </div>
+
+    <!-- SVG filter for glass distortion effect -->
+    <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute; overflow:hidden">
+        <defs>
+            <filter id="glass-distortion" x="0%" y="0%" width="100%" height="100%">
+                <feTurbulence type="fractalNoise" baseFrequency="0.008 0.008" numOctaves="2" seed="92" result="noise" />
+                <feGaussianBlur in="noise" stdDeviation="2" result="blurred" />
+                <feDisplacementMap in="SourceGraphic" in2="blurred" scale="30" xChannelSelector="R"
+                    yChannelSelector="G" />
+            </filter>
+        </defs>
+    </svg>
 </body>
 </html>
