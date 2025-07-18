@@ -7,25 +7,23 @@
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
         :root {
-            /* Inner shadow for glass effect */
-            --shadow-offset: 0;
-            --shadow-blur: 20px;
-            --shadow-spread: -5px;
-            --shadow-color: rgba(255, 255, 255, 0.7);
-
-            /* Glass tint */
-            --tint-color: 255, 255, 255;
-            --tint-opacity: 0.15;
-
-            /* Background frost */
-            --frost-blur: 8px;
-
-            /* SVG noise/distortion */
-            --noise-frequency: 0.008;
-            --distortion-strength: 30;
-
-            /* Outer shadow blur */
-            --outer-shadow-blur: 24px;
+            /* Modern liquid glass variables */
+            --glass-bg: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.1) 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                rgba(255, 255, 255, 0.1) 100%);
+            --glass-border: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.3) 0%,
+                rgba(255, 255, 255, 0.1) 50%,
+                rgba(255, 255, 255, 0.3) 100%);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+                           0 2px 8px rgba(0, 0, 0, 0.2),
+                           inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            --glass-hover-shadow: 0 12px 40px rgba(0, 0, 0, 0.4),
+                                 0 4px 12px rgba(0, 0, 0, 0.3),
+                                 inset 0 1px 0 rgba(255, 255, 255, 0.3);
+            --backdrop-blur: 20px;
+            --border-radius: 24px;
         }
 
         body {
@@ -58,59 +56,80 @@
 
         .download-btn {
             color: white;
-            padding: 18px 36px;
-            border-radius: 20px;
+            padding: 20px 40px;
+            border-radius: var(--border-radius);
             font-size: 18px;
             font-weight: 600;
             text-decoration: none;
-            display: inline-block;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             isolation: isolate;
-            border: none;
+            border: 1px solid transparent;
             cursor: pointer;
-            box-shadow: 0px 6px var(--outer-shadow-blur) rgba(0, 0, 0, 0.3);
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--backdrop-blur));
+            -webkit-backdrop-filter: blur(var(--backdrop-blur));
+            box-shadow: var(--glass-shadow);
+            overflow: hidden;
         }
 
         .download-btn::before {
             content: '';
             position: absolute;
             inset: 0;
-            z-index: 0;
-            border-radius: 20px;
-            box-shadow:
-                inset var(--shadow-offset) var(--shadow-offset) var(--shadow-blur) var(--shadow-spread) var(--shadow-color);
-            background-color: rgba(var(--tint-color), var(--tint-opacity));
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: -1;
+            border-radius: var(--border-radius);
+            background: var(--glass-border);
+            padding: 1px;
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask-composite: xor;
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .download-btn::after {
             content: '';
             position: absolute;
-            inset: 0;
-            z-index: -1;
-            border-radius: 20px;
-            backdrop-filter: blur(var(--frost-blur));
-            filter: url(#glass-distortion);
-            isolation: isolate;
-            -webkit-backdrop-filter: blur(var(--frost-blur));
-            -webkit-filter: url("#glass-distortion");
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent);
+            transition: left 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+            pointer-events: none;
         }
 
         .download-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0px 8px calc(var(--outer-shadow-blur) + 8px) rgba(0, 0, 0, 0.4);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--glass-hover-shadow);
+            background: linear-gradient(135deg,
+                rgba(255, 255, 255, 0.15) 0%,
+                rgba(255, 255, 255, 0.08) 50%,
+                rgba(255, 255, 255, 0.15) 100%);
         }
 
-        .download-btn:hover::before {
-            background-color: rgba(var(--tint-color), calc(var(--tint-opacity) + 0.1));
-            box-shadow:
-                inset var(--shadow-offset) var(--shadow-offset) calc(var(--shadow-blur) + 5px) var(--shadow-spread) var(--shadow-color);
+        .download-btn:hover::after {
+            left: 100%;
         }
 
         .download-btn:active {
-            transform: translateY(-1px);
+            transform: translateY(-2px) scale(1.01);
             transition: all 0.1s ease;
+        }
+
+        .mac-logo {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            flex-shrink: 0;
         }
     </style>
 </head>
@@ -122,20 +141,13 @@
 
     <div class="download-container">
         <a href="https://github.com/aj47/SpeakMCP/releases/download/v0.0.2/SpeakMCP-0.0.2-arm64.dmg" class="download-btn">
+            <svg class="mac-logo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+            </svg>
             Download for Mac
         </a>
     </div>
 
-    <!-- SVG filter for glass distortion effect -->
-    <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute; overflow:hidden">
-        <defs>
-            <filter id="glass-distortion" x="0%" y="0%" width="100%" height="100%">
-                <feTurbulence type="fractalNoise" baseFrequency="0.008 0.008" numOctaves="2" seed="92" result="noise" />
-                <feGaussianBlur in="noise" stdDeviation="2" result="blurred" />
-                <feDisplacementMap in="SourceGraphic" in2="blurred" scale="30" xChannelSelector="R"
-                    yChannelSelector="G" />
-            </filter>
-        </defs>
-    </svg>
+
 </body>
 </html>
