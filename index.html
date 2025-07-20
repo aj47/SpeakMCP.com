@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SpeakMCP</title>
     <link rel="icon" type="image/png" href="favicon.png">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://speakmcp.com/">
+    <meta property="og:title" content="SpeakMCP">
+    <meta property="og:description" content="Voice-controlled MCP (Model Context Protocol) client for seamless AI interactions">
+    <meta property="og:image" content="https://speakmcp.com/og-image.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://speakmcp.com/">
+    <meta property="twitter:title" content="SpeakMCP">
+    <meta property="twitter:description" content="Voice-controlled MCP (Model Context Protocol) client for seamless AI interactions">
+    <meta property="twitter:image" content="https://speakmcp.com/og-image.png">
     <style>
         :root {
             /* Modern liquid glass variables */
@@ -36,11 +50,10 @@
 
         .video-background {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            width: 50vw;
-            height: 50vh;
-            transform: translate(-50%, -50%);
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
             object-fit: cover;
             object-position: center;
             z-index: -1;
