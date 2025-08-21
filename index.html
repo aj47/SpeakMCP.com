@@ -120,6 +120,9 @@
             display: flex;
             gap: 20px;
             align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 90vw;
         }
 
         .download-btn {
@@ -198,6 +201,59 @@
             height: 20px;
             fill: currentColor;
             flex-shrink: 0;
+        }
+
+        /* Mobile responsive styles */
+        @media (max-width: 768px) {
+            .download-container {
+                flex-direction: column;
+                gap: 16px;
+                bottom: 30px;
+                max-width: 85vw;
+            }
+
+            .download-btn {
+                padding: 16px 32px;
+                font-size: 16px;
+                width: 100%;
+                max-width: 280px;
+                justify-content: center;
+                min-height: 56px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .download-container {
+                gap: 12px;
+                bottom: 20px;
+                max-width: 90vw;
+            }
+
+            .download-btn {
+                padding: 14px 24px;
+                font-size: 15px;
+                max-width: 260px;
+                min-height: 52px;
+            }
+
+            .mac-logo, .github-logo {
+                width: 18px;
+                height: 18px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .download-btn {
+                padding: 12px 20px;
+                font-size: 14px;
+                max-width: 240px;
+                min-height: 48px;
+            }
+
+            .mac-logo, .github-logo {
+                width: 16px;
+                height: 16px;
+            }
         }
     </style>
 </head>
