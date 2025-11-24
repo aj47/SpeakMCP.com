@@ -149,20 +149,6 @@
             }
         }
 
-        .app-description {
-            position: fixed;
-            bottom: 140px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1;
-            color: white;
-            font-size: 18px;
-            font-weight: 400;
-            text-align: center;
-            max-width: 90vw;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-        }
-
         .download-container {
             position: fixed;
             bottom: 50px;
@@ -261,11 +247,6 @@
 
         /* Mobile responsive styles */
         @media (max-width: 768px) {
-            .app-description {
-                bottom: 110px;
-                font-size: 16px;
-            }
-
             .download-container {
                 flex-direction: row;
                 gap: 16px;
@@ -286,12 +267,6 @@
         }
 
         @media (max-width: 480px) {
-            .app-description {
-                bottom: 95px;
-                font-size: 15px;
-                padding: 0 10px;
-            }
-
             .download-container {
                 gap: 12px;
                 bottom: 20px;
@@ -315,12 +290,6 @@
         }
 
         @media (max-width: 360px) {
-            .app-description {
-                bottom: 85px;
-                font-size: 14px;
-                padding: 0 8px;
-            }
-
             .download-container {
                 gap: 8px;
                 padding: 0 8px;
@@ -354,8 +323,6 @@
         <source src="speakmcp-web-optimized.mp4" type="video/mp4">
         SpeakMCP is an AI-powered dictation tool.
     </video>
-
-    <p class="app-description">Transform your voice into intelligent actions with AI-powered speech recognition and MCP integration</p>
 
     <div class="download-container">
         <a href="https://github.com/aj47/SpeakMCP/releases/latest/download/SpeakMCP-latest-arm64.dmg" class="download-btn">
